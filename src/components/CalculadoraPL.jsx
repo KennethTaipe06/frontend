@@ -19,6 +19,7 @@ function CalculadoraPL() {
     const [loadingSolution, setLoadingSolution] = useState(false);
     const [loadingSensitivity, setLoadingSensitivity] = useState(false);
     const [hasSaved, setHasSaved] = useState(false);
+    const [errorVisible, setErrorVisible] = useState(false);
 
     useEffect(() => {
         try {
@@ -111,11 +112,22 @@ function CalculadoraPL() {
                     setHasSaved(true);
                 }
             } else {
-                setError(`Error al resolver el problema: ${response.status} ${response.statusText}`);
+                const errorData = await response.json();
+                setError(`Error al resolver el problema: ${response.status} ${response.statusText}. Detalles: ${errorData.error}, Código: ${errorData.codigo}, Detalles: ${errorData.detalles}`);
+                setErrorVisible(true);
+                setTimeout(() => {
+                    setErrorVisible(false);
+                    setError(null);
+                }, 10000);
             }
         } catch (error) {
             console.error('Error:', error);
             setError('Hubo un error al resolver el problema. Por favor, inténtelo de nuevo.');
+            setErrorVisible(true);
+            setTimeout(() => {
+                setErrorVisible(false);
+                setError(null);
+            }, 10000);
         } finally {
             setLoadingSolution(false);
         }
@@ -283,7 +295,7 @@ function CalculadoraPL() {
                     </div>
                 </div>
             )}
-            {error && (
+            {error && errorVisible && (
                 <div className="mt-4 text-red-500">
                     <p>{error}</p>
                 </div>
