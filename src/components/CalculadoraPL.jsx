@@ -55,7 +55,7 @@ function CalculadoraPL() {
         setLoadingModel(true);
         const prompt = `Formula la función objetivo y las restricciones para el siguiente problema de programación lineal: ${input}. Expresa la respuesta de manera clara y estructurada, indicando si se trata de una maximización o minimización de Z. Asegúrate de que todas las restricciones y la función objetivo estén definidas únicamente en términos de las variables x (x₁, x₂, ..., xₙ) e incluye la condición de no negatividad.`;
         try {
-            const response = await fetch('http://localhost:3001/api/gemini/generate', {
+            const response = await fetch('http://52.7.205.36:3001/api/gemini/generate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ function CalculadoraPL() {
             restricciones: restrictions
         };
         try {
-            const response = await fetch('http://127.0.0.1:8080/solve', {
+            const response = await fetch('http://52.7.205.36:8080/solve', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -139,7 +139,7 @@ function CalculadoraPL() {
         if (plHistory) {
             const prompt = `El siguiente es un problema de programacion lineal, quiero que en base a los siguientes datos hagas un analisis economico o de sensibilidad: ${plHistory}`;
             try {
-                const response = await fetch('http://localhost:3001/api/gemini/generate', {
+                const response = await fetch('http://52.7.205.36:3001/api/gemini/generate', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
